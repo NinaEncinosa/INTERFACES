@@ -1,21 +1,31 @@
 "use strict";
 window.addEventListener("load", () => {
+    //Variables
     let canvas = document.querySelector("#canvas");
     let ctx = canvas.getContext("2d");
-    let painting = false;
+    let clean = document.querySelector("#whiteCanvas");
     let pencil = document.querySelector("#pencil");
     let eraser = document.querySelector("#eraser");
-    let rectangle = document.querySelector("#rectangle");
-    let downloader = document.querySelector("#download");
+    let marker = document.querySelector("#marker");
+
     let erase = false;
+    let painting = false;
+
 
     //EventListeners
+    clean.addEventListener("click", canvasBlanco);
     pencil.addEventListener("click", enablePencil);
+    marker.addEventListener("click", enableMarker);
     eraser.addEventListener("click", enableEraser);
-    rectangle.addEventListener("click", enableRectagle);
-    downloader.addEventListener("click", download);
 
-    //funciones
+
+    //Funciones
+    function canvasBlanco() {
+        ctx.fillStyle = "whitesmoke";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.beginPath();
+    }
+
     function startPosition() {
         painting = true;
         draw();
@@ -54,7 +64,7 @@ window.addEventListener("load", () => {
         canvas.addEventListener("mousemove", draw);
     }
 
-    function enableRectagle() {
+    function enableMarker() {
         ctx.strokeStyle = document.querySelector("#html5colorpicker").value;
         ctx.lineCap = "square";
         erase = false;
@@ -63,11 +73,5 @@ window.addEventListener("load", () => {
         canvas.addEventListener("mousemove", draw);
     }
 
-    function download() {
-        let dnld = document.getElementById("download");
-        let image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-        dnld.setAttribute("href", image);
-
-    }
 
 });
