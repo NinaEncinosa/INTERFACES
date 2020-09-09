@@ -11,39 +11,37 @@
 </head>
 
 <body>
-    <div class="tools">
-        <class class="container botons">
-            <a class="btn btn-primary" id="pencil">Lapiz</a>
-            <a class="btn btn-primary" id="eraser">Goma</a>
-            <a class="btn btn-primary" id="rectangle">Rectangulo</a>
-
-            <p class="btn btn-primary">Grosor
-                <input type="range" min="1" max="50" value="30" id="slider-size">
-            </p>
-
-            <p class="btn btn-primary">Color
-                <input type="color" id="html5colorpicker" value="#FB8989">
-            </p>
-
-            <a class="btn btn-primary" download="draw.png" id="download">Descargar</a>
-            <input class="input1" type="file" accept="image/*" style="display: none;">
-            <button class="btn btn-primary" onclick="document.querySelector('.input1').click();">Añadir imagen</button>
-            <a class="btn btn-primary" id="fondo-blanco" value="">Reset canvas blanco</a>
-        </class>
+    <div class="canvas-tools">
+        <input class="input1" type="file" accept="image/*" style="display: none;">
+        <button class="btn btn-primary" onclick="document.querySelector('.input1').click();">Añadir imagen</button>
+        <a class="btn btn-primary" id="whiteCanvas">Limpiar canvas</a>
+        <a class="btn btn-primary" download="draw.png" id="download">Descargar</a>
     </div>
 
-    <!-- <div class="filters">
+    <div class="tools">
+        <a class="btn btn-primary" id="pencil">Lapiz</a>
+        <a class="btn btn-primary" id="marker">Fibrón</a>
+        <a class="btn btn-primary" id="eraser">Goma</a>
 
-        <a class="btn btn-primary" id="negativo">negativo</a>
-        <a class="btn btn-primary" id="brillo">brillo</a>
-        <a class="btn btn-primary" id="binarización">binarización</a>
-        <a class="btn btn-primary" id="sepia">sepia</a>
-        <a class="btn btn-primary" id="saturación">Saturación</a>
-        <a class="btn btn-primary" id="suavizado">Suavizado</a>
-        <a class="btn btn-primary" id="deteccion-bordes">Detección de Bordes</a>
-        <a class="btn btn-primary" id="blur">Blur</a>
-        
-    </div> -->
+        <p class="btn btn-primary">Grosor
+            <input type="range" min="1" max="50" value="30" id="slider-size">
+        </p>
+
+        <p class="btn btn-primary">Color
+            <input type="color" id="html5colorpicker" value="#000000">
+        </p>
+    </div>
+
+    <div class="filters">
+        <a class="btn btn-primary" id="flt-sepia">Sepia</a>
+        <a class="btn btn-primary" id="flt-negativo">Negativo</a>
+        <a class="btn btn-primary" id="flt-brillo">Brillo</a>
+        <a class="btn btn-primary" id="flt-binario">Binarización</a>
+        <a class="btn btn-primary" id="flt-saturación">Saturación</a>
+        <a class="btn btn-primary" id="flt-suavizado">Suavizado</a>
+        <a class="btn btn-primary" id="flt-deteccion-bordes">Detección de Bordes</a>
+        <a class="btn btn-primary" id="flt-blur">Blur</a>
+    </div>
 
     <div class="tablero">
         <canvas id="canvas" class="canvas" height="680" width="850"></canvas>
