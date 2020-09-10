@@ -3,7 +3,6 @@ window.addEventListener("load", () => {
     //Variables
     let canvas = document.querySelector("#canvas");
     let ctx = canvas.getContext("2d");
-    let clean = document.querySelector("#whiteCanvas");
     let pencil = document.querySelector("#pencil");
     let eraser = document.querySelector("#eraser");
     let marker = document.querySelector("#marker");
@@ -13,19 +12,12 @@ window.addEventListener("load", () => {
 
 
     //EventListeners
-    clean.addEventListener("click", canvasBlanco);
     pencil.addEventListener("click", enablePencil);
     marker.addEventListener("click", enableMarker);
     eraser.addEventListener("click", enableEraser);
 
 
     //Funciones
-    function canvasBlanco() {
-        ctx.fillStyle = "whitesmoke";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.beginPath();
-    }
-
     function startPosition() {
         painting = true;
         draw();

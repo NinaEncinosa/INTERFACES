@@ -3,22 +3,30 @@ window.addEventListener("load", () => {
     //Variables
     let canvas = document.querySelector("#canvas");
     let ctx = canvas.getContext("2d");
+
+    let clean = document.querySelector("#whiteCanvas");
     let downloader = document.querySelector("#download");
     let input = document.querySelector(".input1");
 
-
     let sepia = document.querySelector("#flt-sepia");
     let negativo = document.querySelector("#flt-negativo");
+    let greyScale = document.querySelector("#flt-greyScale");
     let binario = document.querySelector("#flt-binario");
 
     //EventListeners
+    clean.addEventListener("click", canvasBlanco);
     downloader.addEventListener("click", download);
     sepia.addEventListener("click", applySepiaFilter);
     negativo.addEventListener("click", applyNegativeFilter);
+    greyScale.addEventListener("click", applyGreyScale);
     binario.addEventListener("click", applyBinaryFilter);
 
-
     //Funciones
+    function canvasBlanco() {
+        ctx.fillStyle = "whitesmoke";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.beginPath();
+    }
 
     function download() {
         let dnld = document.getElementById("download");
@@ -27,15 +35,47 @@ window.addEventListener("load", () => {
 
     }
 
+    function rgbToHsl(r, g, b) {
+        r /= 255, g /= 255, b /= 255;
+        var max = Math.max(r, g, b),
+            min = Math.min(r, g, b);
+        var h, s, l = (max + min) / 2;
+
+        if (max == min) {
+            h = s = 0; // achromatic
+        } else {
+            var d = max - min;
+            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+            switch (max) {
+                case r:
+                    h = (g - b) / d;
+                    break;
+                case g:
+                    h = 2 + ((b - r) / d);
+                    break;
+                case b:
+                    h = 4 + ((r - g) / d);
+                    break;
+            }
+            h *= 60;
+            if (h < 0) h += 360;
+        }
+        return ([h, s, l]);
+    }
+
+
     function applySepiaFilter() {
         let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         for (let y = 0; y < imageData.height; y++) {
             for (let x = 0; x < imageData.width; x++) {
                 let index = (x + imageData.width * y) * 4;
+
                 let red = 0.393 * imageData.data[index + 0] + 0.769 * imageData.data[index + 1] + 0.189 * imageData.data[index + 2];
                 if (red > 255) red = 255;
+
                 let green = 0.349 * imageData.data[index + 0] + 0.686 * imageData.data[index + 1] + 0.168 * imageData.data[index + 2];
                 if (green > 255) green = 255;
+
                 let blue = 0.272 * imageData.data[index + 0] + 0.534 * imageData.data[index + 1] + 0.131 * imageData.data[index + 2];
                 if (blue > 255) blue = 255;
 
@@ -61,6 +101,25 @@ window.addEventListener("load", () => {
         ctx.putImageData(imageData, 0, 0);
     }
 
+
+    function applyGreyScale() {
+        let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        for (let y = 0; y < canvas.height; y++) {
+            for (let x = 0; x < canvas.width; x++) {
+                let index = (x + y * imageData.width) * 4;
+                let greyPixel = imageData.data[index + 0] + imageData.data[index + 1] + imageData.data[index + 2];
+                greyPixel = greyPixel / 3;
+
+                imageData.data[index + 0] = greyPixel;
+                imageData.data[index + 1] = greyPixel;
+                imageData.data[index + 2] = greyPixel;
+            }
+        }
+        ctx.putImageData(imageData, 0, 0);
+
+    }
+
+
     function applyBinaryFilter() {
         let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         for (let y = 0; y < canvas.height; y++) {
@@ -80,6 +139,13 @@ window.addEventListener("load", () => {
         }
         ctx.putImageData(imageData, 0, 0);
     }
+
+
+
+
+
+
+
 
 
 
@@ -109,6 +175,7 @@ window.addEventListener("load", () => {
                     canvas.width / this.width,
                     canvas.height / this.height
                 );
+                canvasBlanco();
                 ctx.drawImage(this, 0, 0, this.width * scale, this.height * scale);
             };
         };
