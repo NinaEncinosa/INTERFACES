@@ -13,7 +13,8 @@
 <body>
     <div class="canvas-tools">
         <input class="input1" type="file" accept="image/*" style="display: none;">
-        <button class="btn btn-primary" onclick="document.querySelector('.input1').click();">Añadir imagen</button>
+        <button class="btn btn-primary" id="addImg" onclick="document.querySelector('.input1').click();">Añadir
+            imagen</button>
         <a class="btn btn-primary" id="whiteCanvas">Limpiar canvas</a>
         <a class="btn btn-primary" download="draw.png" id="download">Descargar</a>
     </div>
@@ -35,7 +36,7 @@
     <div class="filters">
         <a class="btn btn-primary" id="flt-sepia">Sepia</a>
         <a class="btn btn-primary" id="flt-negativo">Negativo</a>
-        <a class="btn btn-primary" id="flt-brillo">Brillo</a>
+        <a class="btn btn-primary" id="flt-greyScale">Escala de grises</a>
         <a class="btn btn-primary" id="flt-binario">Binarización</a>
         <a class="btn btn-primary" id="flt-saturación">Saturación</a>
         <a class="btn btn-primary" id="flt-suavizado">Suavizado</a>
