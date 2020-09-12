@@ -38,31 +38,31 @@ window.addEventListener("load", () => {
         ctx.moveTo(e.clientX - this.offsetLeft, e.clientY - this.offsetTop);
     }
 
+    function mouseEvents() {
+        canvas.addEventListener("mousedown", startPosition);
+        canvas.addEventListener("mouseup", finishPosition);
+        canvas.addEventListener("mousemove", draw);
+    }
+
     function enablePencil() {
         ctx.strokeStyle = document.querySelector("#html5colorpicker").value;
         ctx.lineCap = "round";
         erase = false;
-        canvas.addEventListener("mousedown", startPosition);
-        canvas.addEventListener("mouseup", finishPosition);
-        canvas.addEventListener("mousemove", draw);
+        mouseEvents();
     }
 
     function enableEraser() {
         ctx.strokeStyle = "whitesmoke";
         ctx.lineCap = "round";
         erase = true;
-        canvas.addEventListener("mousedown", startPosition);
-        canvas.addEventListener("mouseup", finishPosition);
-        canvas.addEventListener("mousemove", draw);
+        mouseEvents();
     }
 
     function enableMarker() {
         ctx.strokeStyle = document.querySelector("#html5colorpicker").value;
         ctx.lineCap = "square";
         erase = false;
-        canvas.addEventListener("mousedown", startPosition);
-        canvas.addEventListener("mouseup", finishPosition);
-        canvas.addEventListener("mousemove", draw);
+        mouseEvents();
     }
 
 
