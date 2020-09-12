@@ -11,42 +11,63 @@
 </head>
 
 <body>
-    <div class="canvas-tools">
-        <input class="input1" type="file" accept="image/*" style="display: none;">
-        <button class="btn btn-primary" id="addImg" onclick="document.querySelector('.input1').click();">Añadir
-            imagen</button>
-        <a class="btn btn-primary" id="whiteCanvas">Limpiar canvas</a>
-        <a class="btn btn-primary" download="draw.png" id="download">Descargar</a>
+    <div class="container">
+        <header>
+            Photo editing
+        </header>
+        <main>
+            <!-- Left sidebar -->
+            <aside style=>
+                <div class="tools">
+                    <a class="btn btn-primary" id="pencil">Lapiz</a>
+                    <a class="btn btn-primary" id="marker">Fibrón</a>
+                    <a class="btn btn-primary" id="eraser">Goma</a>
+
+                    <p class="btn btn-primary">Grosor
+                        <input type="range" min="1" max="40" value="15" id="slider-size">
+                    </p>
+
+                    <p class="btn btn-primary">Color
+                        <input type="color" id="html5colorpicker" value="#000000">
+                    </p>
+                </div>
+            </aside>
+
+            <!-- Main content -->
+            <article>
+                <div class="tablero">
+                    <canvas id="canvas" class="canvas" height="480" width="640"></canvas>
+
+                </div>
+            </article>
+
+            <!-- Right sidebar -->
+            <nav>
+                <div class="filters">
+                    <a class="btn btn-primary " id="flt-sepia">Sepia</a>
+                    <a class="btn btn-primary" id="flt-negativo">Negativo</a>
+                    <a class="btn btn-primary" id="flt-greyScale">Escala de grises</a>
+                    <a class="btn btn-primary" id="flt-binario">Binarización</a>
+                    <a class="btn btn-primary" id="flt-blur">Blur</a>
+                    <a class="btn btn-primary" id="flt-nitidez">Nitidez</a>
+                    <a class="btn btn-primary" id="flt-saturation">Saturacion
+                        <input type="range" min="1" max="3" value="1.2" step="0.01" id="value">
+                    </a>
+                </div>
+            </nav>
+        </main>
+        <footer>
+            <div class="canvas-tools">
+                <input class="input1" type="file" accept="image/*" style="display: none;">
+                <button class="btn btn-primary" id="addImg" onclick="document.querySelector('.input1').click();">Añadir
+                    imagen</button>
+                <a class="btn btn-primary" id="whiteCanvas">Limpiar canvas</a>
+                <a class="btn btn-primary" download="draw.png" id="download">Descargar</a>
+            </div>
+        </footer>
     </div>
 
-    <div class="tools">
-        <a class="btn btn-primary" id="pencil">Lapiz</a>
-        <a class="btn btn-primary" id="marker">Fibrón</a>
-        <a class="btn btn-primary" id="eraser">Goma</a>
 
-        <p class="btn btn-primary">Grosor
-            <input type="range" min="1" max="50" value="30" id="slider-size">
-        </p>
-
-        <p class="btn btn-primary">Color
-            <input type="color" id="html5colorpicker" value="#000000">
-        </p>
-    </div>
-
-    <div class="filters">
-        <a class="btn btn-primary" id="flt-sepia">Sepia</a>
-        <a class="btn btn-primary" id="flt-negativo">Negativo</a>
-        <a class="btn btn-primary" id="flt-greyScale">Escala de grises</a>
-        <a class="btn btn-primary" id="flt-binario">Binarización</a>
-        <a class="btn btn-primary" id="flt-saturación">Saturación</a>
-        <a class="btn btn-primary" id="flt-suavizado">Suavizado</a>
-        <a class="btn btn-primary" id="flt-deteccion-bordes">Detección de Bordes</a>
-        <a class="btn btn-primary" id="flt-blur">Blur</a>
-    </div>
-
-    <div class="tablero">
-        <canvas id="canvas" class="canvas" height="680" width="850"></canvas>
-    </div>
 
 </body>
 <script type='text/javascript' src='js/canvas.js'></script>

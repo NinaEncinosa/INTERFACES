@@ -32,14 +32,23 @@ option-menu {
   border-style: outset;
 }
 
-/* .tools {
-  background-color: khaki;
+.container {
+  display: flex;
+  flex-direction: column;
 }
 
-.filters {
-  background-color: lightgoldenrodyellow;
-} */
+main {
+  /* Take the remaining height */
+  flex-grow: 1;
 
-/* .tablero {
-  text-align: center;
-} */
+  /* Layout the left sidebar, main content and right sidebar */
+  display: flex;
+  flex-direction: row;
+}
+
+.tools,
+.filters {
+  width: 25%;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
