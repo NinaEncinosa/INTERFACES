@@ -13,12 +13,13 @@
 <body>
     <div class="container">
         <header>
-            Photo editing
+            <h1>Editor de fotos</h1>
         </header>
         <main>
             <!-- Left sidebar -->
             <aside style=>
                 <div class="tools">
+                    <h2>Herramientas:</h2>
                     <a class="btn btn-primary" id="pencil">Lapiz</a>
                     <a class="btn btn-primary" id="marker">Fibrón</a>
                     <a class="btn btn-primary" id="eraser">Goma</a>
@@ -44,6 +45,7 @@
             <!-- Right sidebar -->
             <nav>
                 <div class="filters">
+                    <h2>Filtros:</h2>
                     <a class="btn btn-primary " id="flt-sepia">Sepia</a>
                     <a class="btn btn-primary" id="flt-negativo">Negativo</a>
                     <a class="btn btn-primary" id="flt-greyScale">Escala de grises</a>
@@ -51,7 +53,10 @@
                     <a class="btn btn-primary" id="flt-blur">Blur</a>
                     <a class="btn btn-primary" id="flt-nitidez">Nitidez</a>
                     <a class="btn btn-primary" id="flt-saturation">Saturacion
-                        <input type="range" min="1" max="3" value="1.2" step="0.01" id="value">
+                        <input type="range" min="1" max="3" value="1.2" step="0.01" id="saturation-value">
+                    </a>
+                    <a class="btn btn-primary" id="flt-brillo">Brillo
+                        <input type="range" min="1" max="3" value="1.2" step="0.01" id="brightness-value">
                     </a>
                 </div>
             </nav>
@@ -65,6 +70,18 @@
                 <a class="btn btn-primary" download="draw.png" id="download">Descargar</a>
             </div>
         </footer>
+
+        <p>Detalles a tener en cuenta:
+            <br>
+            -Los filtros son acumulativos.
+            <br>
+            -Al presionar reiteradas veces un mismo filtro este incrementará su
+            intencidad.
+            <br>
+            -Al descargar la imagen tenga en cuenta que está tendra una resolucion de 480x640.
+            <br>
+            -Cada vez que añada una nueva imagen, los cambios y/o dibujos realizados previamente se perderán.
+        </p>
     </div>
 
 

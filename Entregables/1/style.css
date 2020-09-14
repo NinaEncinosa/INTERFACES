@@ -19,6 +19,7 @@ option-menu {
   background-color: #ffdac1;
   margin: 1%;
   border-color: black;
+  width: 240px;
 }
 
 .btn:hover {
@@ -38,10 +39,7 @@ option-menu {
 }
 
 main {
-  /* Take the remaining height */
   flex-grow: 1;
-
-  /* Layout the left sidebar, main content and right sidebar */
   display: flex;
   flex-direction: row;
 }
@@ -51,4 +49,12 @@ main {
   width: 25%;
   flex-wrap: wrap;
   flex-direction: column;
+}
+.canvas-tools {
+  margin-left: 15%;
+}
+
+h1 {
+  text-align: center;
+  text-decoration: underline;
 }
