@@ -6,10 +6,6 @@ body {
   color: black !important;
 }
 
-option-menu {
-  flex-shrink: initial;
-}
-
 .botons {
   text-align: center;
 }
@@ -31,14 +27,10 @@ option-menu {
   background-color: whitesmoke;
   border: 5px solid #fad7a0;
   border-style: outset;
+  margin: 10px;
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
-}
-
-main {
   flex-grow: 1;
   display: flex;
   flex-direction: row;
@@ -46,15 +38,24 @@ main {
 
 .tools,
 .filters {
-  width: 25%;
-  flex-wrap: wrap;
+  display: flex;
   flex-direction: column;
+  margin-top: 60px;
 }
+
 .canvas-tools {
-  margin-left: 15%;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.btntool {
+  width: 180px;
 }
 
 h1 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
   text-align: center;
   text-decoration: underline;
 }

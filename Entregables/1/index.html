@@ -12,65 +12,57 @@
 
 <body>
     <div class="container">
-        <header>
+
+        <div class="tools">
+            <h2>Herramientas:</h2>
+            <a class="btn btn-primary" id="pencil">Lapiz</a>
+            <a class="btn btn-primary" id="marker">Fibrón</a>
+            <a class="btn btn-primary" id="eraser">Goma</a>
+
+            <p class="btn btn-primary">Grosor
+                <input type="range" min="1" max="40" value="15" id="slider-size">
+            </p>
+
+            <p class="btn btn-primary">Color
+                <input type="color" id="html5colorpicker" value="#000000">
+            </p>
+        </div>
+
+
+        <div class="tablero">
             <h1>Editor de fotos</h1>
-        </header>
-        <main>
-            <!-- Left sidebar -->
-            <aside style=>
-                <div class="tools">
-                    <h2>Herramientas:</h2>
-                    <a class="btn btn-primary" id="pencil">Lapiz</a>
-                    <a class="btn btn-primary" id="marker">Fibrón</a>
-                    <a class="btn btn-primary" id="eraser">Goma</a>
-
-                    <p class="btn btn-primary">Grosor
-                        <input type="range" min="1" max="40" value="15" id="slider-size">
-                    </p>
-
-                    <p class="btn btn-primary">Color
-                        <input type="color" id="html5colorpicker" value="#000000">
-                    </p>
-                </div>
-            </aside>
-
-            <!-- Main content -->
-            <article>
-                <div class="tablero">
-                    <canvas id="canvas" class="canvas" height="480" width="640"></canvas>
-
-                </div>
-            </article>
-
-            <!-- Right sidebar -->
-            <nav>
-                <div class="filters">
-                    <h2>Filtros:</h2>
-                    <a class="btn btn-primary " id="flt-sepia">Sepia</a>
-                    <a class="btn btn-primary" id="flt-negativo">Negativo</a>
-                    <a class="btn btn-primary" id="flt-greyScale">Escala de grises</a>
-                    <a class="btn btn-primary" id="flt-binario">Binarización</a>
-                    <a class="btn btn-primary" id="flt-blur">Blur</a>
-                    <a class="btn btn-primary" id="flt-nitidez">Nitidez</a>
-                    <a class="btn btn-primary" id="flt-saturation">Saturacion
-                        <input type="range" min="1" max="3" value="1.2" step="0.01" id="saturation-value">
-                    </a>
-                    <a class="btn btn-primary" id="flt-brillo">Brillo
-                        <input type="range" min="1" max="3" value="1.2" step="0.01" id="brightness-value">
-                    </a>
-                </div>
-            </nav>
-        </main>
-        <footer>
+            <canvas id="canvas" class="canvas" height="480" width="640"></canvas>
             <div class="canvas-tools">
                 <input class="input1" type="file" accept="image/*" style="display: none;">
-                <button class="btn btn-primary" id="addImg" onclick="document.querySelector('.input1').click();">Añadir
+                <button class="btn btn-primary btntool" id="addImg"
+                    onclick="document.querySelector('.input1').click();">Añadir
                     imagen</button>
-                <a class="btn btn-primary" id="whiteCanvas">Limpiar canvas</a>
-                <a class="btn btn-primary" download="draw.png" id="download">Descargar</a>
+                <a class="btn btn-primary btntool" id="whiteCanvas">Limpiar canvas</a>
+                <a class="btn btn-primary btntool" download="draw.png" id="download">Descargar</a>
             </div>
-        </footer>
+        </div>
 
+        <div class="filters">
+            <h2>Filtros:</h2>
+            <a class="btn btn-primary " id="flt-sepia">Sepia</a>
+            <a class="btn btn-primary" id="flt-negativo">Negativo</a>
+            <a class="btn btn-primary" id="flt-greyScale">Escala de grises</a>
+            <a class="btn btn-primary" id="flt-binario">Binarización</a>
+            <a class="btn btn-primary" id="flt-blur">Blur</a>
+            <a class="btn btn-primary" id="flt-nitidez">Nitidez</a>
+            <a class="btn btn-primary" id="flt-saturation">Saturacion
+                <input type="range" min="1" max="3" value="1.2" step="0.01" id="saturation-value">
+            </a>
+            <a class="btn btn-primary" id="flt-brillo">Brillo
+                <input type="range" min="1" max="3" value="1.2" step="0.01" id="brightness-value">
+            </a>
+        </div>
+
+
+
+    </div>
+
+    <footer>
         <p>Detalles a tener en cuenta:
             <br>
             -Los filtros son acumulativos.
@@ -82,9 +74,8 @@
             <br>
             -Cada vez que añada una nueva imagen, los cambios y/o dibujos realizados previamente se perderán.
         </p>
-    </div>
 
-
+    </footer>
 
 </body>
 <script type='text/javascript' src='js/canvas.js'></script>
