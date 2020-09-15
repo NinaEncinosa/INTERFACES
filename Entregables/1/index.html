@@ -1,84 +1,110 @@
-<!DOCTYPE html
-    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-
-<head>
+  <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Entrega N° 1 | Encinosa Castro </title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+    <title>Entrega N° 1 | Encinosa Castro</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
     <link rel="stylesheet" type="text/css" href="style.css" />
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container">
+      <div class="tools">
+        <h2>Herramientas</h2>
+        <a class="btn btn-primary" id="pencil">Lapiz</a>
+        <a class="btn btn-primary" id="marker">Fibrón</a>
+        <a class="btn btn-primary" id="eraser">Goma</a>
 
-        <div class="tools">
-            <h2>Herramientas:</h2>
-            <a class="btn btn-primary" id="pencil">Lapiz</a>
-            <a class="btn btn-primary" id="marker">Fibrón</a>
-            <a class="btn btn-primary" id="eraser">Goma</a>
+        <p class="btn btn-primary">
+          Grosor
+          <input type="range" min="1" max="40" value="15" id="slider-size" />
+        </p>
 
-            <p class="btn btn-primary">Grosor
-                <input type="range" min="1" max="40" value="15" id="slider-size">
-            </p>
+        <p class="btn btn-primary">
+          Color
+          <input type="color" id="html5colorpicker" value="#000000" />
+        </p>
+      </div>
 
-            <p class="btn btn-primary">Color
-                <input type="color" id="html5colorpicker" value="#000000">
-            </p>
+      <div class="tablero">
+        <h1>Editor de fotos</h1>
+        <canvas id="canvas" class="canvas" height="480" width="640"></canvas>
+        <div class="canvas-tools">
+          <input
+            class="input1"
+            type="file"
+            accept="image/*"
+            style="display: none"
+          />
+          <button
+            class="btn btn-primary btntool"
+            id="addImg"
+            onclick="document.querySelector('.input1').click();"
+          >
+            Añadir imagen
+          </button>
+          <a class="btn btn-primary btntool" id="whiteCanvas">Limpiar canvas</a>
+          <a class="btn btn-primary btntool" download="draw.png" id="download"
+            >Descargar</a
+          >
         </div>
+      </div>
 
-
-        <div class="tablero">
-            <h1>Editor de fotos</h1>
-            <canvas id="canvas" class="canvas" height="480" width="640"></canvas>
-            <div class="canvas-tools">
-                <input class="input1" type="file" accept="image/*" style="display: none;">
-                <button class="btn btn-primary btntool" id="addImg"
-                    onclick="document.querySelector('.input1').click();">Añadir
-                    imagen</button>
-                <a class="btn btn-primary btntool" id="whiteCanvas">Limpiar canvas</a>
-                <a class="btn btn-primary btntool" download="draw.png" id="download">Descargar</a>
-            </div>
-        </div>
-
-        <div class="filters">
-            <h2>Filtros:</h2>
-            <a class="btn btn-primary " id="flt-sepia">Sepia</a>
-            <a class="btn btn-primary" id="flt-negativo">Negativo</a>
-            <a class="btn btn-primary" id="flt-greyScale">Escala de grises</a>
-            <a class="btn btn-primary" id="flt-binario">Binarización</a>
-            <a class="btn btn-primary" id="flt-blur">Blur</a>
-            <a class="btn btn-primary" id="flt-nitidez">Nitidez</a>
-            <a class="btn btn-primary" id="flt-saturation">Saturacion
-                <input type="range" min="1" max="3" value="1.2" step="0.01" id="saturation-value">
-            </a>
-            <a class="btn btn-primary" id="flt-brillo">Brillo
-                <input type="range" min="1" max="3" value="1.2" step="0.01" id="brightness-value">
-            </a>
-        </div>
-
-
-
+      <div class="filters">
+        <h2>Filtros</h2>
+        <a class="btn btn-primary" id="flt-sepia">Sepia</a>
+        <a class="btn btn-primary" id="flt-negativo">Negativo</a>
+        <a class="btn btn-primary" id="flt-greyScale">Escala de grises</a>
+        <a class="btn btn-primary" id="flt-binario">Binarización</a>
+        <a class="btn btn-primary" id="flt-blur">Blur</a>
+        <a class="btn btn-primary" id="flt-nitidez">Nitidez</a>
+        <a class="btn btn-primary" id="flt-saturation"
+          >Saturacion
+          <input
+            type="range"
+            min="1"
+            max="3"
+            value="1.2"
+            step="0.01"
+            id="saturation-value"
+          />
+        </a>
+        <a class="btn btn-primary" id="flt-brillo"
+          >Brillo
+          <input
+            type="range"
+            min="1"
+            max="3"
+            value="1.2"
+            step="0.01"
+            id="brightness-value"
+          />
+        </a>
+      </div>
     </div>
 
     <footer>
-        <p>Detalles a tener en cuenta:
-            <br>
-            -Los filtros son acumulativos.
-            <br>
-            -Al presionar reiteradas veces un mismo filtro este incrementará su
-            intensidad.
-            <br>
-            -Al descargar la imagen tenga en cuenta que está tendra una resolucion de 480x640 .
-            <br>
-            -Cada vez que añada una nueva imagen, los cambios y/o dibujos realizados previamente se perderán.
-        </p>
-
+      <p>
+        En esta app:
+        <br />
+        -Los filtros son acumulativos.
+        <br />
+        -Al presionar reiteradas veces un mismo filtro este incrementará su
+        intensidad.
+        <br />
+        -Al descargar la imagen tenga en cuenta que está tendra una resolucion
+        de 480x640 .
+        <br />
+        -Cada vez que añada una nueva imagen, los cambios y/o dibujos realizados
+        previamente se perderán.
+      </p>
     </footer>
-
-</body>
-<script type='text/javascript' src='js/canvas.js'></script>
-<script type='text/javascript' src='js/pictures.js'></script>
-
+  </body>
+  <script type="text/javascript" src="js/canvas.js"></script>
+  <script type="text/javascript" src="js/pictures.js"></script>
 </html>
