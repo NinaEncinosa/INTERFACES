@@ -21,6 +21,10 @@ window.addEventListener("load", () => {
   let green = 1;
   let blue = 2;
 
+  let h = 0;
+  let s = 1;
+  let l = 2;
+
   let kernelBlur = [
     [1 / 9, 1 / 9, 1 / 9],
     [1 / 9, 1 / 9, 1 / 9],
@@ -46,8 +50,12 @@ window.addEventListener("load", () => {
   sharpness.addEventListener("click", function () {
     applyKernelFilter(kernelSharpness);
   });
-  saturation.addEventListener("click", applySaturationFilter);
-  brightness.addEventListener("click", applyBrightnessFilter);
+  saturation.addEventListener("click", function () {
+    applyHSLFilter(s, document.querySelector("#saturation-value").value);
+  });
+  brightness.addEventListener("click", function () {
+    applyHSLFilter(l, document.querySelector("#brightness-value").value);
+  });
 
   //Funciones auxiliares
   function cleanCanvas() {
@@ -241,9 +249,8 @@ window.addEventListener("load", () => {
     ctx.putImageData(imageData, 0, 0);
   }
 
-  function applySaturationFilter() {
+  function applyHSLFilter(hsl_option, value) {
     let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    let value = document.querySelector("#saturation-value").value;
     for (let x = 0; x < imageData.width; x++) {
       for (let y = 0; y < imageData.height; y++) {
         let hsl = rgbToHsl(
@@ -251,7 +258,7 @@ window.addEventListener("load", () => {
           getPixel(imageData, x, y, green),
           getPixel(imageData, x, y, blue)
         );
-        hsl[1] = hsl[1] * value;
+        hsl[hsl_option] = hsl[hsl_option] * value;
         let rgb = hslToRgb(hsl[0], hsl[1], hsl[2]);
         setPixel(imageData, x, y, rgb[0], rgb[1], rgb[2]);
       }
@@ -259,23 +266,6 @@ window.addEventListener("load", () => {
     ctx.putImageData(imageData, 0, 0);
   }
 
-  function applyBrightnessFilter() {
-    let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    let value = document.querySelector("#brightness-value").value;
-    for (let x = 0; x < imageData.width; x++) {
-      for (let y = 0; y < imageData.height; y++) {
-        let hsl = rgbToHsl(
-          getPixel(imageData, x, y, red),
-          getPixel(imageData, x, y, green),
-          getPixel(imageData, x, y, blue)
-        );
-        hsl[2] = hsl[2] * value;
-        let rgb = hslToRgb(hsl[0], hsl[1], hsl[2]);
-        setPixel(imageData, x, y, rgb[0], rgb[1], rgb[2]);
-      }
-    }
-    ctx.putImageData(imageData, 0, 0);
-  }
 
   //Cargo la imagen desde el ordenador
   input.onchange = (e) => {
