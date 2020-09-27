@@ -3,9 +3,8 @@ let ctx = canvas.getContext("2d");
 let canvasWidth = canvas.width;
 let canvasHeight = canvas.height;
 
-//dimensiones de la zona donde se van a dibujar las fichas
-let circlesWidth = 120;
-let circlesHeight = 120;
+let background = new Image();
+
 
 //dimensiones de la matriz del tablero
 const boardCol = 7;
@@ -13,12 +12,16 @@ const boardFil = 6;
 
 //constantes
 const NUM_FIG = boardCol * boardFil;
-const SIZE_FIG = 50;
+const SIZE_FIG = 80;
 const WINNER_NUMBER = 4; //cantidad de fichas iguales para ganar!
 
 //coordenadas de donde iniziar a dibujar las celdas del tablero (esquina superior izquierda)
 let boardWidth = canvasWidth / 2 - (boardCol / 2) * SIZE_FIG - SIZE_FIG; //formula para que quede SIEMPRE centrado el canvas
 let boardHeight = canvasHeight - (SIZE_FIG * (boardFil + 1.5));
+
+//dimensiones de la zona donde se van a dibujar las fichas
+let circlesWidth = boardWidth;
+let circlesHeight = canvasHeight / 2;
 
 //coordenadas de la zona desde donde van a estar habilitadas las fichas para ser ubicadas
 let dropWidth = boardWidth;
@@ -32,8 +35,10 @@ initExample();
 
 //#region inicializar juego
 function initExample() {
-    boardWidth = canvasWidth / 2 - (boardCol / 2) * SIZE_FIG - SIZE_FIG; //formula para que quede SIEMPRE centrado el canvas
+    //reescribo los valores originales para luego poder invocar a initExample() y resetear juego
+    boardWidth = canvasWidth / 2 - (boardCol / 2) * SIZE_FIG - SIZE_FIG;
     boardHeight = canvasHeight - (SIZE_FIG * (boardFil + 1.5));
+
 
     //coordenadas de la zona desde donde van a estar habilitadas las fichas para ser ubicadas
     dropWidth = boardWidth;
@@ -60,14 +65,14 @@ function initExample() {
         let _posX = SIZE_FIG / 2 + Math.round(Math.random() * circlesWidth);
         let _posY =
             canvasHeight - SIZE_FIG / 2 - Math.round(Math.random() * circlesHeight);
-        let _color = "#ffb0c1";
+        let _color = "./img/player1.png";
         addCircle(_color, true, 1, _posX, _posY);
 
         _posX =
             canvasWidth - SIZE_FIG / 2 - Math.round(Math.random() * circlesWidth);
         _posY =
             canvasHeight - SIZE_FIG / 2 - Math.round(Math.random() * circlesHeight);
-        _color = "blue";
+        _color = "./img/player2.png";
         addCircle(_color, true, 2, _posX, _posY);
     }
 
@@ -438,7 +443,7 @@ function onmouseup(event) {
 //#region funciones auxiliares generales
 
 function drawFigures() {
-    clearCanvas("#f8c471", canvas);
+    clearCanvas();
     for (let i = 0; i < figures.length; i++) {
         if (figures[i] != lastClickedFigure) {
             figures[i].draw(ctx);
@@ -449,6 +454,17 @@ function drawFigures() {
     }
 }
 
+function clearCanvas() {
+    if (background.src === "") {
+        background.src = "./img/background.jpg";
+        let cargarImg = function () {
+            ctx.drawImage(background, 0, 0, canvasWidth, canvasHeight);
+        }
+        background.onload = cargarImg.bind(this);
+    } else {
+        ctx.drawImage(background, 0, 0, canvasWidth, canvasHeight);
+    }
+}
 
 function findClickedFigure(x, y) {
     for (let index = 0; index < figures.length; index++) {
@@ -499,20 +515,15 @@ function endGame() {
 
 //#region dibujar/borrar figuras
 
-function clearCanvas(color, canvas) {
-    ctx.fillStyle = color;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-}
-
 function addRectangle(x, y) {
-    let color = "#ffdac1";
+    let color = "./img/tab_vacio.png";
     let rect = new Rect(x, y, SIZE_FIG, SIZE_FIG, color, ctx);
     figures.push(rect);
 }
 
 //se podran colocar fichas desde la pos 0 del canvas hasta donde inizia el tablero. 
 function addDropZone(x, y) {
-    let color = "white";
+    let color = "white"; //agregar img flechitas o algo asi..!
     let dropZone = new DropZone(x, 0, SIZE_FIG, boardHeight - (boardFil * SIZE_FIG), color, ctx);
     figures.push(dropZone);
 }

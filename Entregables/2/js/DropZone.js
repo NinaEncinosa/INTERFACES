@@ -7,11 +7,11 @@ class DropZone extends Figure {
     }
 
     draw() {
-        super.draw();
-        this.context.fillRect(this.posX, this.posY, this.width, this.height);
-        this.context.strokeStyle = "black";
-        this.context.lineWidth = 3;
-        this.context.strokeRect(this.posX, this.posY, this.width, this.height);
+        // super.draw();
+        // this.context.fillRect(this.posX, this.posY, this.width, this.height);
+        // this.context.strokeStyle = "black";
+        // this.context.lineWidth = 3;
+        // this.context.strokeRect(this.posX, this.posY, this.width, this.height);
     }
 
     getWidth() {

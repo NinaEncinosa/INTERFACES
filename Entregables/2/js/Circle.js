@@ -2,22 +2,32 @@ class Circle extends Figure {
     constructor(player, turn, posX, posY, radius, fill, context) {
         super(posX, posY, fill, context);
         this.player = player;
-        this.turn = turn; //sacar, no lo use nunca.. en vez use el de abajo que deberia cambiarle el nombre..! (EVALUAR, QUIZAS LA NECESITE EH!)
+        this.turn = turn;
         this.isClickable = true;
         this.highlighted = false;
         this.highlightedStyle = "yellow";
         this.radius = radius;
+        this.urlimage = fill;
+        this.image = new Image();
     }
 
     draw() {
         super.draw();
         this.context.beginPath();
         this.context.arc(this.posX, this.posY, this.radius, 0, 2 * Math.PI);
-        this.context.fill();
 
         this.context.strokeStyle = "Black";
-        this.context.lineWidth = 5;
+        this.context.lineWidth = 3;
         this.context.stroke();
+        if (this.image.src === "") {
+            this.image.src = this.urlimage;
+            let loadImg = function () {
+                this.context.drawImage(this.image, this.posX - this.radius, this.posY - this.radius, SIZE_FIG / 2, SIZE_FIG / 2);
+            }
+            this.image.onload = loadImg.bind(this);
+        } else {
+            this.context.drawImage(this.image, this.posX - this.radius, this.posY - this.radius, SIZE_FIG / 2, SIZE_FIG / 2);
+        }
 
         if (this.highlighted === true) {
             this.context.strokeStyle = this.highlightedStyle;
