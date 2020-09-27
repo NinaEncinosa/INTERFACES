@@ -1,9 +1,9 @@
 class Circle extends Figure {
-    constructor(player, turn, posX, posY, radius, fill, isInBoard, context) {
+    constructor(player, turn, posX, posY, radius, fill, context) {
         super(posX, posY, fill, context);
         this.player = player;
         this.turn = turn; //sacar, no lo use nunca.. en vez use el de abajo que deberia cambiarle el nombre..! (EVALUAR, QUIZAS LA NECESITE EH!)
-        this.isInBoard = isInBoard; // cambiar nombre por dragueable/clickeable o algo asi..
+        this.isClickable = true;
         this.highlighted = false;
         this.highlightedStyle = "yellow";
         this.radius = radius;
@@ -35,17 +35,21 @@ class Circle extends Figure {
         return this.player;
     }
 
-    setIsInBoard(param) {
-        this.isInBoard = param;
+    setIsClickable(param) {
+        this.isClickable = param;
     }
 
     isPointedInside(x, y) {
-        if (this.isInBoard == false) {
+        if ((this.isClickable == true) && (this.turn == true)) {
             let _x = this.posX - x;
             let _y = this.posY - y;
             let isInside = Math.sqrt(_x * _x + _y * _y) < this.radius;
             return isInside;
         }
+    }
+
+    setTurn(param) {
+        this.turn = param;
     }
 
 }

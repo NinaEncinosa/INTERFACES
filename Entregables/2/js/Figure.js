@@ -48,7 +48,7 @@ class Figure {
         this.context.fillStyle = this.fill;
     }
 
-    setIsInBoard(param) {}
+    setIsClickable(param) {}
 
     isPointedInside(x, y) {}
 
@@ -59,5 +59,7 @@ class Figure {
     alreadyHasCircleInside() {}
 
     getPlayer() {};
+
+    setTurn(param) {}
 
 }
