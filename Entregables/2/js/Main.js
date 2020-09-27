@@ -14,7 +14,7 @@ const boardFil = 6;
 //constantes
 const NUM_FIG = boardCol * boardFil;
 const SIZE_FIG = 50;
-const WINNER_NUMBER = 2; //cantidad de fichas iguales para ganar!
+const WINNER_NUMBER = 4; //cantidad de fichas iguales para ganar!
 
 //coordenadas de donde iniziar a dibujar las celdas del tablero (esquina superior izquierda)
 let boardWidth = canvasWidth / 2 - (boardCol / 2) * SIZE_FIG - SIZE_FIG; //formula para que quede SIEMPRE centrado el canvas
