@@ -26,7 +26,6 @@ class Circle extends Figure {
             }
             this.image.onload = loadImg.bind(this);
         } else {
-            console.log("aca rompe?");
             this.context.drawImage(this.image, this.posX - this.radius, this.posY - this.radius, SIZE_FIG / 2, SIZE_FIG / 2);
         }
 
