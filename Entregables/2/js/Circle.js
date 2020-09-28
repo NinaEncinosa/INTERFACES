@@ -16,9 +16,9 @@ class Circle extends Figure {
         this.context.beginPath();
         this.context.arc(this.posX, this.posY, this.radius, 0, 2 * Math.PI);
 
-        // this.context.strokeStyle = "Black";
-        // this.context.lineWidth = 3;
-        // this.context.stroke();
+        this.context.strokeStyle = "Black";
+        this.context.lineWidth = 3;
+        this.context.stroke();
         if (this.image.src === "") {
             this.image.src = this.urlimage;
             let loadImg = function () {

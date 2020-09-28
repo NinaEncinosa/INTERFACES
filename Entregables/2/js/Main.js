@@ -63,8 +63,7 @@ function initExample() {
     //crear las fichas de cada jugador
     for (let index = 0; index < NUM_FIG / 2; index++) {
         let _posX = SIZE_FIG / 2 + Math.round(Math.random() * circlesWidth);
-        let _posY =
-            canvasHeight - SIZE_FIG / 2 - Math.round(Math.random() * circlesHeight);
+        let _posY = canvasHeight - SIZE_FIG / 2 - Math.round(Math.random() * circlesHeight);
         let _color = "./img/player1.png";
         addCircle(_color, true, 1, _posX, _posY);
 
