@@ -72,7 +72,7 @@ function initExample() {
             canvasWidth - SIZE_FIG / 2 - Math.round(Math.random() * circlesWidth);
         _posY =
             canvasHeight - SIZE_FIG / 2 - Math.round(Math.random() * circlesHeight);
-        _color = "./img/player2.png";
+        _color = "./img/Player2.png";
         addCircle(_color, true, 2, _posX, _posY);
     }
 
