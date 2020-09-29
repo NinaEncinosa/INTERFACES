@@ -5,22 +5,32 @@ let canvasHeight = canvas.height;
 let background = new Image();
 
 //dimensiones de la matriz del tablero
-const boardCol = 6;
-const boardFil = 5;
+let boardCol = 5;
+let boardFil = 4;
 
 //constantes
-const NUM_FIG = boardCol * boardFil;
+let NUM_FIG = boardCol * boardFil;
 const SIZE_FIG = 75;
 const WINNER_NUMBER = 4; //cantidad de fichas iguales para ganar!
 
+//imagenes
 const urlPlayer1 = "./img/player1.png";
 const urlPlayer2 = "./img/player2.png";
 const urlBackground = "./img/background.jpg";
 const urlBoardCell = "./img/tab_vacio.png";
+const urlDropArrow = "./img/dropArrow.png";
+
+//coordenadas de las fichas que unicamente muestran turno!
+const posXP1 = SIZE_FIG;
+const posYP1 = SIZE_FIG;
+let id_P1 = null;
+
+const posXP2 = SIZE_FIG * 2;
+const posYP2 = SIZE_FIG;
+let id_P2 = null;
 
 //#region calculo de dimensiones de manera proporcional
-
-//coordenadas de donde iniziar a dibujar las celdas del tablero (esquina superior izquierda)
+//coordenadas de donde iniziar a dibujar las celdas del tablero 
 let boardWidth = (canvasWidth / 2) - (boardCol / 2) * SIZE_FIG - SIZE_FIG; //formula para que quede SIEMPRE centrado el canvas
 let boardHeight = canvasHeight - (SIZE_FIG * (boardFil + 1.5));
 
@@ -32,6 +42,23 @@ let circlesHeight = canvasHeight / 2;
 let dropWidth = boardWidth;
 let dropHeight = boardHeight - SIZE_FIG;
 
+//cordenadas "botones" en canvas 
+let btnReiniciarX = canvasWidth - 130;
+let btnReiniciarY = 30;
+
+let btnTableroX = canvasWidth - 100;
+let btnTableroY = 60;
+
+let btnSmallX = canvasWidth - 90;
+let btnSmallY = btnTableroY + 30;
+
+let btnMediumX = canvasWidth - 90;
+let btnMediumY = btnSmallY + 30;
+
+let btnBigX = canvasWidth - 90;
+let btnBigY = btnMediumY + 30;
+
+//variables generales
 let figures = [];
 let tokensPlayed = 0;
 let lastClickedFigure = null;
@@ -43,14 +70,17 @@ initExample();
 
 //#region inicializar juego
 function initExample() {
-    //reescribo los valores originales para luego poder invocar a initExample() y resetear juego
+    //#region reescribir valores originales del juego para luego poder invocar a initExample() y resetear juego
+    NUM_FIG = boardCol * boardFil;
     boardWidth = canvasWidth / 2 - (boardCol / 2) * SIZE_FIG - SIZE_FIG;
     boardHeight = canvasHeight - (SIZE_FIG * (boardFil + 1.5));
 
-
-    //coordenadas de la zona desde donde van a estar habilitadas las fichas para ser ubicadas
     dropWidth = boardWidth;
     dropHeight = boardHeight - SIZE_FIG;
+
+    circlesWidth = boardWidth;
+    circlesHeight = canvasHeight / 2;
+    //#endregion
 
     //#region crear las figuras 
 
@@ -85,6 +115,17 @@ function initExample() {
         addCircle(_color, true, 2, _posX, _posY);
     }
 
+    //crear las 2 fichas que voy a mostrar en la zona "Turno de:"
+    addCircle(urlPlayer1, true, 1, posXP1, posYP1);
+    id_P1 = getFigureByCoord(posXP1, posYP1);
+    figures[id_P1].setIsClickable(false);
+    figures[id_P1].setHighlighted(true);
+
+    addCircle(urlPlayer2, true, 2, posXP2, posYP2);
+    id_P2 = getFigureByCoord(posXP2, posYP2);
+    figures[id_P2].setIsClickable(false);
+    figures[id_P2].setHighlighted(true);
+
     //#endregion
 
     drawFigures();
@@ -111,6 +152,37 @@ function onmousedown(event) {
         clickedFigure.setHighlighted(true);
         lastClickedFigure = clickedFigure;
     }
+
+    //Hizo click en reiniciar?
+    if ((event.layerX >= btnReiniciarX) && (event.layerY <= btnReiniciarY)) {
+        figures = [];
+        initExample();
+    }
+
+    //Hizo click en tablero de 5X4?
+    if ((event.layerX >= btnSmallX) && ((event.layerY <= btnSmallY) && (event.layerY > btnTableroY))) {
+        boardCol = 5;
+        boardFil = 4;
+        figures = [];
+        initExample();
+    }
+
+    //Hizo click en tablero de 6X5?
+    if ((event.layerX >= btnMediumX) && ((event.layerY <= btnMediumY) && (event.layerY > btnSmallY))) {
+        boardCol = 6;
+        boardFil = 5;
+        figures = [];
+        initExample();
+    }
+
+    //Hizo click en tablero de 7X5?
+    if ((event.layerX >= btnBigX) && ((event.layerY <= btnBigY) && (event.layerY > btnMediumY))) {
+        boardCol = 7;
+        boardFil = 5;
+        figures = [];
+        initExample();
+    }
+
     drawFigures();
 }
 
@@ -128,9 +200,7 @@ function onmouseup(event) {
     isMouseDown = false;
     if (lastClickedFigure != null) {
         if (isInDroppingZone(lastClickedFigure)) {
-            //mostrar en un futuro el turno de quien es ahora
             if (isGameOver(lastClickedFigure)) {
-                //en algun lado agregar un timeout asi veo la jugada ganadora!
                 //alert("Gano Player: " + lastClickedFigure.getPlayer());
                 endGame();
                 drawFigures();
@@ -156,7 +226,7 @@ function addRectangle(x, y) {
 
 //se podran colocar fichas desde la pos 0 del canvas hasta donde inizia el tablero. 
 function addDropZone(x, y) {
-    let color = "white"; //agregar img flechitas o algo asi..!
+    let color = urlDropArrow;
     let dropZone = new DropZone(x, 0, SIZE_FIG, boardHeight - (boardFil * SIZE_FIG), color, ctx);
     figures.push(dropZone);
 }
@@ -176,6 +246,7 @@ function addCircle(_color, _turn, _player, _posX, _posY) {
 
 function drawFigures() {
     clearCanvas();
+    addButtonsAndTexts();
     for (let i = 0; i < figures.length; i++) {
         if (figures[i] != lastClickedFigure) {
             figures[i].draw(ctx);
@@ -196,6 +267,26 @@ function clearCanvas() {
     } else {
         ctx.drawImage(background, 0, 0, canvasWidth, canvasHeight);
     }
+}
+
+function addButtonsAndTexts() {
+    ctx.font = "35px Arial";
+    ctx.strokeText("Turno de: ", 30, 40);
+
+    ctx.font = "30px Arial";
+    ctx.fillText("-reiniciar-", btnReiniciarX, btnReiniciarY);
+
+    ctx.font = "25px Arial";
+    ctx.fillText("Tablero:", btnTableroX, btnTableroY);
+
+    ctx.font = "25px Arial";
+    ctx.fillText("[5 X 4]", btnSmallX, btnSmallY);
+
+    ctx.font = "25px Arial";
+    ctx.fillText("[6 X 5]", btnMediumX, btnMediumY);
+
+    ctx.font = "25px Arial";
+    ctx.fillText("[7 X 5]", btnBigX, btnBigY);
 }
 
 function findClickedFigure(x, y) {
@@ -224,7 +315,7 @@ function isInBoardZone(token) {
     return false;
 }
 
-//Una vez que ya se que estoy en el tablero, esta funcion me devuelve el "id" de una figura en (x,y)
+//Esta funcion me devuelve el "id" de una figura en (x,y)
 function getFigureByCoord(x, y) {
     for (let i = 0; i < figures.length; i++) {
         if (figures[i].getPosX() == x && figures[i].getPosY() == y) {
@@ -239,6 +330,8 @@ function endGame() {
     for (let index = 0; index < figures.length; index++) {
         figures[index].setIsClickable(false);
     }
+    figures[id_P1].setHighlighted(false);
+    figures[id_P2].setHighlighted(false);
 }
 
 //#endregion

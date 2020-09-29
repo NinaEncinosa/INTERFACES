@@ -2,12 +2,24 @@ class DropZone extends Figure {
 
     constructor(posX, posY, width, height, fill, context) {
         super(posX, posY, fill, context);
+        this.urlimage = fill;
+        this.image = new Image();
         this.width = width;
         this.height = height;
     }
 
     draw() {
-        //podria carga foto con flechitas como ayuda 
+        super.draw();
+        if (this.image.src === "") {
+            this.image.src = this.urlimage;
+            let loadImg = function () {
+                this.context.drawImage(this.image, this.posX, this.posY, this.width, this.height);
+            }
+            this.image.onload = loadImg.bind(this);
+
+        } else {
+            this.context.drawImage(this.image, this.posX, this.posY, this.width, this.height);
+        }
     }
 
     getWidth() {

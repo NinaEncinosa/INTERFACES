@@ -28,7 +28,7 @@ class Circle extends Figure {
 
         if (this.highlighted === true) {
             this.context.strokeStyle = this.highlightedStyle;
-            this.context.lineWidth = 5;
+            this.context.lineWidth = 8;
             this.context.stroke();
         }
 

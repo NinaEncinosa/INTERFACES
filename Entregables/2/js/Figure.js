@@ -70,5 +70,4 @@ class Figure {
     setTurn(param) {}
 
     //#endregion
-
 }
