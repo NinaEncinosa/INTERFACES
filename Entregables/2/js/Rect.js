@@ -23,6 +23,7 @@ class Rect extends Figure {
 
     }
 
+    //#region getters
     getWidth() {
         return this.width;
     }
@@ -31,13 +32,14 @@ class Rect extends Figure {
         return this.height;
     }
 
-    //esta mal el nombre, devuelve si el circulo que le paso "x,y" cae en ese rectangulo en especial o no (el rectangulo que llamo al metodo)..
-    isCircleInside(x, y) {
+    //#endregion
+
+    isTokenInside(x, y) {
         let isInside = !(x < this.posX || x > this.posX + this.width || y < this.posY || y > this.posY + this.height);
         return isInside;
     }
 
-
+    //celda ya ocupada
     alreadyHasCircleInside() {
         let cellWithFigureInside = false;
         for (let index = 0; index < figures.length; index++) {

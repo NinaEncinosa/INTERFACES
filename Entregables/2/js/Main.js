@@ -2,21 +2,26 @@ let canvas = document.querySelector("#canvas");
 let ctx = canvas.getContext("2d");
 let canvasWidth = canvas.width;
 let canvasHeight = canvas.height;
-
 let background = new Image();
 
-
 //dimensiones de la matriz del tablero
-const boardCol = 7;
-const boardFil = 6;
+const boardCol = 6;
+const boardFil = 5;
 
 //constantes
 const NUM_FIG = boardCol * boardFil;
-const SIZE_FIG = 80;
+const SIZE_FIG = 75;
 const WINNER_NUMBER = 4; //cantidad de fichas iguales para ganar!
 
+const urlPlayer1 = "./img/player1.png";
+const urlPlayer2 = "./img/player2.png";
+const urlBackground = "./img/background.jpg";
+const urlBoardCell = "./img/tab_vacio.png";
+
+//#region calculo de dimensiones de manera proporcional
+
 //coordenadas de donde iniziar a dibujar las celdas del tablero (esquina superior izquierda)
-let boardWidth = canvasWidth / 2 - (boardCol / 2) * SIZE_FIG - SIZE_FIG; //formula para que quede SIEMPRE centrado el canvas
+let boardWidth = (canvasWidth / 2) - (boardCol / 2) * SIZE_FIG - SIZE_FIG; //formula para que quede SIEMPRE centrado el canvas
 let boardHeight = canvasHeight - (SIZE_FIG * (boardFil + 1.5));
 
 //dimensiones de la zona donde se van a dibujar las fichas
@@ -28,8 +33,11 @@ let dropWidth = boardWidth;
 let dropHeight = boardHeight - SIZE_FIG;
 
 let figures = [];
+let tokensPlayed = 0;
 let lastClickedFigure = null;
 let isMouseDown = false;
+
+//#endregion
 
 initExample();
 
@@ -43,6 +51,8 @@ function initExample() {
     //coordenadas de la zona desde donde van a estar habilitadas las fichas para ser ubicadas
     dropWidth = boardWidth;
     dropHeight = boardHeight - SIZE_FIG;
+
+    //#region crear las figuras 
 
     //crear la matriz del tablero
     for (let x = 0; x < boardFil; x++) {
@@ -64,324 +74,25 @@ function initExample() {
     for (let index = 0; index < NUM_FIG / 2; index++) {
         let _posX = SIZE_FIG / 2 + Math.round(Math.random() * circlesWidth);
         let _posY = canvasHeight - SIZE_FIG / 2 - Math.round(Math.random() * circlesHeight);
-        let _color = "./img/player1.png";
+        let _color = urlPlayer1;
         addCircle(_color, true, 1, _posX, _posY);
 
         _posX =
             canvasWidth - SIZE_FIG / 2 - Math.round(Math.random() * circlesWidth);
         _posY =
             canvasHeight - SIZE_FIG / 2 - Math.round(Math.random() * circlesHeight);
-        _color = "./img/player2.png";
+        _color = urlPlayer2;
         addCircle(_color, true, 2, _posX, _posY);
     }
 
-    //dibujar figuras
+    //#endregion
+
     drawFigures();
 
     //inicializar listeners
     canvas.addEventListener("mousedown", onmousedown, false);
     canvas.addEventListener("mousemove", onmousemove, false);
     canvas.addEventListener("mouseup", onmouseup, false);
-}
-
-//#endregion
-
-//#region logica del juego
-
-//Checkeo si una ficha fue soltada en la zona habilitada para realizar jugada!
-function isInDroppingZone(figure) {
-    for (let index = 0; index < figures.length; index++) {
-        const element = figures[index];
-        if (
-            element.isCircleInsideDrop(figure.getPosX(), figure.getPosY(), figure)
-        ) {
-            if (placeDroppedCircle(figure)) {
-                let player = figure.getPlayer();
-                for (let i = 0; i < figures.length; i++) {
-                    if (figures[i].getPlayer() == player) {
-                        figures[i].setTurn(false);
-                    } else {
-                        figures[i].setTurn(true);
-                    }
-                }
-            }
-            return true;
-        }
-    }
-    return false;
-}
-
-//Ubico la ficha depositada en la dropping zone donde corresponda!
-function placeDroppedCircle(figure) {
-    let dropped = false;
-    //itero de atras para adelante para checkear de abajo hacia arriba si hay fichas
-    for (let index = figures.length - 1; index >= 0; index--) {
-        if (
-            figures[index].getPosX() == figure.getPosX() && // (figura en la misma columna que la ficha)
-            figures[index].getPosY() > figure.getPosY() && // (figura no tiene que estar arriba del tablero) 
-            figures[index].getPosY() < boardHeight + boardFil * (SIZE_FIG + 1) //(la figura no puede estar abajo del tablero)
-        ) {
-            //(celda vacia)
-            if (!figures[index].alreadyHasCircleInside()) {
-                //agregar: decirle al juego que ahora le toca a la otra ficha jugar..!
-                dropped = true;
-                figure.setTurn(false);
-                figure.setIsClickable(false);
-                figure.setPosition(
-                    figures[index].getPosX() + SIZE_FIG / 2,
-                    figures[index].getPosY() + SIZE_FIG / 2
-                );
-                return true;
-            }
-        }
-        if (dropped == false) {
-            newX = figure.getPosX() + SIZE_FIG / 2;
-            newY = boardHeight + SIZE_FIG;
-        }
-    }
-
-    if (dropped == false) {
-        figure.setIsClickable(true);
-        figure.setPosition(newX, newY);
-        return false;
-    }
-}
-
-//Checkear despues de cada ficha colocada si se terminó el juego
-function isGameOver(lastFigureInserted) {
-    if (
-        isWinnerByFil(lastFigureInserted) ||
-        isWinnerByCol(lastFigureInserted) ||
-        isWinnerByDiagonal(lastFigureInserted) ||
-        isTieGame()
-    ) {
-        return true;
-    }
-    return false;
-}
-
-//#endregion
-
-//#region auxiliares para checkear si termino el juego
-
-//checkeo si la fila 1 esta completa!
-function isTieGame() {
-    return false;
-}
-
-
-//MEJORAR HACIENDOLAS RECURSIVAS!!!! ASI ESTA MUY CROTO.
-
-function isWinnerByCol(lastFigureInserted) {
-    let x = lastClickedFigure.getPosX() - SIZE_FIG / 2; //posX de la celda que contiene la ultima ficha insertada!
-    let y = lastFigureInserted.getPosY() - SIZE_FIG / 2; //posX de la celda que contiene la ultima ficha insertada!
-    let lineof = WINNER_NUMBER;
-    let indexCell = getFigureByCoord(x, y); //"id" de la figura celda que contiene la ultima ficha insertada
-
-    while (
-        y < boardHeight && // (altura dentro del tablero)
-        lineof > 0 && // (lineof = 0 -> gano!)
-        figures[indexCell].getPlayer() == lastFigureInserted.getPlayer() // (iterar mientras la ficha en la celda sea del mismo jugador)
-    ) {
-        y = y + SIZE_FIG;
-        indexCell = getFigureByCoord(x, y);
-        lineof--;
-    }
-    if (lineof == 0) {
-        y = lastFigureInserted.getPosY() - SIZE_FIG / 2;
-        indexCell = getFigureByCoord(x, y);
-        figures[indexCell].setFill("lightblue");
-        while (
-            y < boardHeight &&
-            figures[indexCell].getPlayer() == lastFigureInserted.getPlayer()
-        ) {
-            figures[indexCell].setFill("lightblue");
-            y = y + SIZE_FIG;
-            indexCell = getFigureByCoord(x, y);
-        }
-        return true;
-    }
-}
-
-function isWinnerByFil(lastFigureInserted) {
-    let x = lastClickedFigure.getPosX() - SIZE_FIG / 2; //posX de la celda que contiene la ultima ficha insertada!
-    let y = lastFigureInserted.getPosY() - SIZE_FIG / 2; //posX de la celda que contiene la ultima ficha insertada!
-    let lineof = WINNER_NUMBER;
-    let indexCell = getFigureByCoord(x, y); //"id" de la figura celda que contiene la ultima ficha insertada
-
-    //busco la ficha del mismo jugador lo mas a la izq posible en la misma fila
-    //agregar que no se vaya de rango para arriba, ejemplo ficha en 1er col con la col ya completa
-    while (
-        x > boardWidth && // (no se pasa de la izq del tablero)
-        figures[indexCell].getPlayer() == lastFigureInserted.getPlayer() // (iterar mientras la ficha en la celda sea del mismo jugador)
-    ) {
-        x = x - SIZE_FIG;
-        indexCell = getFigureByCoord(x, y);
-    }
-
-    //cuando termina el while me pase por 1 celda asique reestablesco:
-    x = x + SIZE_FIG;
-    indexCell = getFigureByCoord(x, y);
-
-    //a partir de la ficha que obtube arranco a checkear si hay 4 iguales
-    while (
-        x <= (boardWidth + (boardCol * SIZE_FIG)) && // (no se pasa de la der del tablero)
-        lineof > 0 && // (lineof = 0 -> gano!)
-        figures[indexCell].getPlayer() == lastFigureInserted.getPlayer() // (iterar mientras la ficha en la celda sea del mismo jugador)
-    ) {
-        x = x + SIZE_FIG;
-        indexCell = getFigureByCoord(x, y);
-        lineof--;
-    }
-
-    // (lineof = 0 -> gano!)
-    if (lineof == 0) {
-        //reestablesco valores
-        x = x - SIZE_FIG;
-        indexCell = getFigureByCoord(x, y);
-
-        //pinto la jugada ganadora
-        while (
-            x > boardWidth && // (no se pasa de la izq del tablero)
-            figures[indexCell].getPlayer() == lastFigureInserted.getPlayer() // (iterar mientras la ficha en la celda sea del mismo jugador)
-        ) {
-            figures[indexCell].setFill("lightblue");
-            x = x - SIZE_FIG;
-            indexCell = getFigureByCoord(x, y);
-
-        }
-        return true;
-    }
-}
-
-
-function isWinnerByDiagonal(lastFigureInserted) {
-    if (isWinnerByDiagonalDown(lastFigureInserted) || isWinnerByDiagonalUp(lastFigureInserted)) {
-        return true;
-    }
-}
-
-function isWinnerByDiagonalDown(lastFigureInserted) {
-    let x = lastClickedFigure.getPosX() - SIZE_FIG / 2; //posX de la celda que contiene la ultima ficha insertada!
-    let y = lastFigureInserted.getPosY() - SIZE_FIG / 2; //posX de la celda que contiene la ultima ficha insertada!
-    let lineof = WINNER_NUMBER;
-    let indexCell = getFigureByCoord(x, y); //"id" de la figura celda que contiene la ultima ficha insertada
-
-    //busco la pos mas a la izq arriba en la diagonal que tenga ficha igual
-    while (
-        x > boardWidth && // // (no pasarme de la izq del tablero)
-        y < boardHeight && // (altura dentro del tablero)
-        //meter en un if adentro del while (como en isWinn..Up() )por que sino rompe la ultima ficha insertada de una col
-        figures[indexCell].getPlayer() == lastFigureInserted.getPlayer() // (iterar mientras la ficha en la celda sea del mismo jugador)
-    ) {
-        x = x - SIZE_FIG;
-        y = y - SIZE_FIG;
-        indexCell = getFigureByCoord(x, y);
-    }
-
-    //como me paso por 1, reestablezco valores
-    x = x + SIZE_FIG;
-    y = y + SIZE_FIG;
-    indexCell = getFigureByCoord(x, y);
-
-
-    //comienzo a contar desde la posicion que obtube, si hay 4 en linea
-    while (
-        x <= (boardWidth + (boardCol * SIZE_FIG)) && // (no se pasa de la der del tablero)
-        y < boardHeight && // (altura dentro del tablero)
-        lineof > 0 && // (lineof = 0 -> gano!)
-        figures[indexCell].getPlayer() == lastFigureInserted.getPlayer() // (iterar mientras la ficha en la celda sea del mismo jugador)
-    ) {
-        x = x + SIZE_FIG;
-        y = y + SIZE_FIG;
-        indexCell = getFigureByCoord(x, y);
-        lineof--;
-    }
-
-    if (lineof == 0) {
-        x = x - SIZE_FIG;
-        y = y - SIZE_FIG;
-        indexCell = getFigureByCoord(x, y);
-        figures[indexCell].setFill("lightblue");
-        //en caso de haber ganado pinto las fichas ganadoras!
-        while (
-            x > boardWidth && // (ancho dentro del tablero)
-            y < boardHeight && // (altura dentro del tablero)
-            figures[indexCell].getPlayer() == lastFigureInserted.getPlayer() // (iterar mientras la ficha en la celda sea del mismo jugador)
-        ) {
-            figures[indexCell].setFill("lightblue");
-            x = x - SIZE_FIG;
-            y = y - SIZE_FIG;
-            indexCell = getFigureByCoord(x, y);
-        }
-        return true;
-    }
-}
-
-function isWinnerByDiagonalUp(lastFigureInserted) {
-    let x = lastClickedFigure.getPosX() - SIZE_FIG / 2; //posX de la celda que contiene la ultima ficha insertada!
-    let y = lastFigureInserted.getPosY() - SIZE_FIG / 2; //posY de la celda que contiene la ultima ficha insertada!
-    let lineof = WINNER_NUMBER;
-    let counted = 0;
-    let indexCell = getFigureByCoord(x, y); //"id" de la figura celda que contiene la ultima ficha insertada
-
-    //busco la pos mas a la izq abajo en la diagonal que tenga ficha igual
-    while ((x > boardWidth) && (y <= boardHeight - SIZE_FIG)) {
-        if (figures[indexCell].getPlayer() == lastFigureInserted.getPlayer()) {
-            counted++;
-            x = x - SIZE_FIG;
-            y = y + SIZE_FIG;
-            indexCell = getFigureByCoord(x, y);
-
-        } else {
-            x = x - SIZE_FIG;
-            y = y + SIZE_FIG;
-        }
-
-    }
-
-    //las ccordenadas de esa ficha encontraba 
-    x = (lastClickedFigure.getPosX() - SIZE_FIG / 2) - (SIZE_FIG * (counted - 1));
-    y = (lastFigureInserted.getPosY() - SIZE_FIG / 2) + (SIZE_FIG * (counted - 1));
-    indexCell = getFigureByCoord(x, y);
-
-    if (counted == WINNER_NUMBER) {
-        while (x <= (lastClickedFigure.getPosX() - SIZE_FIG / 2)) {
-            figures[indexCell].setFill("lightblue");
-            x = x + SIZE_FIG;
-            y = y - SIZE_FIG;
-            indexCell = getFigureByCoord(x, y);
-        }
-        return true;
-    } else {
-        let xaux = x;
-        let yaux = y;
-        let indexx = indexCell;
-        while (
-            x <= (boardWidth + (boardCol * SIZE_FIG)) && // (no se pasa de la der del tablero)
-            y <= boardHeight && // (altura dentro del tablero)
-            lineof > 0 && // (lineof = 0 -> gano!)
-            figures[indexCell].getPlayer() == lastFigureInserted.getPlayer() // (iterar mientras la ficha en la celda sea del mismo jugador)
-        ) {
-            x = x + SIZE_FIG;
-            y = y - SIZE_FIG;
-            indexCell = getFigureByCoord(x, y);
-            lineof--;
-        }
-
-        if (lineof == 0) {
-            while (lineof < WINNER_NUMBER) {
-                figures[indexx].setFill("lightblue");
-                xaux = xaux + SIZE_FIG;
-                yaux = yaux - SIZE_FIG;
-                indexx = getFigureByCoord(xaux, yaux);
-                lineof++;
-            }
-            return true;
-        }
-
-
-    }
 
 }
 
@@ -390,7 +101,6 @@ function isWinnerByDiagonalUp(lastFigureInserted) {
 //#region mouse events
 function onmousedown(event) {
     isMouseDown = true;
-    //se limpia la propiedad highlighted de la ultima figura clickeada para buscar la nueva
     if (lastClickedFigure != null) {
         lastClickedFigure.setHighlighted(false);
         lastClickedFigure = null;
@@ -421,12 +131,9 @@ function onmouseup(event) {
             //mostrar en un futuro el turno de quien es ahora
             if (isGameOver(lastClickedFigure)) {
                 //en algun lado agregar un timeout asi veo la jugada ganadora!
+                //alert("Gano Player: " + lastClickedFigure.getPlayer());
                 endGame();
                 drawFigures();
-                // figures = [];
-                // //simulo un click por que sino me queda la ultima ficha dibujada en el nuevo tablero!
-                // onmousedown(event);
-                // initExample();
                 return
             }
 
@@ -437,6 +144,32 @@ function onmouseup(event) {
     }
     drawFigures();
 }
+//#endregion
+
+//#region dibujar figuras
+
+function addRectangle(x, y) {
+    let color = urlBoardCell;
+    let rect = new Rect(x, y, SIZE_FIG, SIZE_FIG, color, ctx);
+    figures.push(rect);
+}
+
+//se podran colocar fichas desde la pos 0 del canvas hasta donde inizia el tablero. 
+function addDropZone(x, y) {
+    let color = "white"; //agregar img flechitas o algo asi..!
+    let dropZone = new DropZone(x, 0, SIZE_FIG, boardHeight - (boardFil * SIZE_FIG), color, ctx);
+    figures.push(dropZone);
+}
+
+function addCircle(_color, _turn, _player, _posX, _posY) {
+    let player = _player;
+    let posX = _posX;
+    let posY = _posY;
+    let color = _color;
+    let circle = new Circle(player, _turn, posX, posY, (SIZE_FIG / 2) * .5, color, ctx);
+    figures.push(circle);
+}
+
 //#endregion
 
 //#region funciones auxiliares generales
@@ -455,7 +188,7 @@ function drawFigures() {
 
 function clearCanvas() {
     if (background.src === "") {
-        background.src = "./img/background.jpg";
+        background.src = urlBackground;
         let cargarImg = function () {
             ctx.drawImage(background, 0, 0, canvasWidth, canvasHeight);
         }
@@ -475,14 +208,14 @@ function findClickedFigure(x, y) {
 }
 
 //Si una ficha fue soltada arriba del tablero la corro para que no estorbe!
-function isInBoardZone(figure) {
+function isInBoardZone(token) {
     for (let index = 0; index < figures.length; index++) {
         const element = figures[index];
-        if (element.isCircleInside(figure.getPosX(), figure.getPosY())) {
+        if (element.isTokenInside(token.getPosX(), token.getPosY())) {
             //quizas mejora: reubicar la ficha en la zona de pilita de fichas original (izq o derecha)
-            figure.setPosition(
+            token.setPosition(
                 figures[index].getPosX() -
-                (figures[index].getPosX() - figure.getPosX()),
+                (figures[index].getPosX() - token.getPosX()),
                 boardHeight + SIZE_FIG
             );
             return true;
@@ -507,35 +240,5 @@ function endGame() {
         figures[index].setIsClickable(false);
     }
 }
-
-
-
-//#endregion
-
-//#region dibujar/borrar figuras
-
-function addRectangle(x, y) {
-    let color = "./img/tab_vacio.png";
-    let rect = new Rect(x, y, SIZE_FIG, SIZE_FIG, color, ctx);
-    figures.push(rect);
-}
-
-//se podran colocar fichas desde la pos 0 del canvas hasta donde inizia el tablero. 
-function addDropZone(x, y) {
-    let color = "white"; //agregar img flechitas o algo asi..!
-    let dropZone = new DropZone(x, 0, SIZE_FIG, boardHeight - (boardFil * SIZE_FIG), color, ctx);
-    figures.push(dropZone);
-}
-
-function addCircle(_color, _turn, _player, _posX, _posY) {
-    let player = _player;
-    let posX = _posX;
-    let posY = _posY;
-    let color = _color;
-    let circle = new Circle(player, _turn, posX, posY, (SIZE_FIG / 2) * .5, color, ctx);
-    figures.push(circle);
-}
-
-
 
 //#endregion

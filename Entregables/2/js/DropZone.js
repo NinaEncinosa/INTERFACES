@@ -7,11 +7,7 @@ class DropZone extends Figure {
     }
 
     draw() {
-        // super.draw();
-        // this.context.fillRect(this.posX, this.posY, this.width, this.height);
-        // this.context.strokeStyle = "black";
-        // this.context.lineWidth = 3;
-        // this.context.strokeRect(this.posX, this.posY, this.width, this.height);
+        //podria carga foto con flechitas como ayuda 
     }
 
     getWidth() {
@@ -22,9 +18,10 @@ class DropZone extends Figure {
         return this.height;
     }
 
-    isCircleInsideDrop(x, y, figure) {
+    isTokenInsideDroppingZone(figure) {
+        let x = figure.getPosX();
+        let y = figure.getPosY();
         let isInside = !(x < this.posX || x > this.posX + this.width || y < this.posY || y > this.posY + this.height);
-
         //Ubica la ficha en el centro de la columna en la "dropping zone"
         if (isInside == true) {
             figure.setPosition(this.posX, this.posY);

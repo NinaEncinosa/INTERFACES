@@ -7,20 +7,12 @@ class Figure {
         this.param = false;
     }
 
-    setFill(fill) {
-        this.fill = fill;
-    }
-
+    //#region getters
     getPosition() {
         return {
             x: this.getPosX(),
             y: this.getPosY()
         };
-    }
-
-    setPosition(x, y) {
-        this.posX = x;
-        this.posY = y;
     }
 
     getPosX() {
@@ -35,6 +27,19 @@ class Figure {
         return this.fill;
     }
 
+
+    //#endregion
+
+    //#region setters
+    setFill(fill) {
+        this.fill = fill;
+    }
+
+    setPosition(x, y) {
+        this.posX = x;
+        this.posY = y;
+    }
+
     setHighlighted(value) {
         this.highlighted = value;
     }
@@ -43,7 +48,9 @@ class Figure {
         this.highlightedStyle = style;
     }
 
-    //abstract methods
+    //#endregion
+
+    //#region metodos abstractos
     draw() {
         this.context.fillStyle = this.fill;
     }
@@ -52,14 +59,16 @@ class Figure {
 
     isPointedInside(x, y) {}
 
-    isCircleInsideDrop(x, y, figure) {}
+    isTokenInsideDroppingZone(figure) {}
 
-    isCircleInside(figure) {}
+    isTokenInside(figure) {}
 
     alreadyHasCircleInside() {}
 
     getPlayer() {};
 
     setTurn(param) {}
+
+    //#endregion
 
 }
