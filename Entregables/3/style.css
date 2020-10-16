@@ -2,12 +2,36 @@
     margin: 0;
     padding: 0;
     font-family: sans-serif;
+    font-size: 20px;
 }
 
 body {
     background-color: #59C6FF;
     min-height: 2500px;
 }
+
+/* #region navbar */
+.custom-navbar {
+    background-color: #016DB5;
+}
+
+.custom-nav-items {
+    text-decoration: none;
+    background-color: #016DB5;
+}
+
+.custom-nav-items a {
+    transition: all .5s ease-in-out;
+}
+
+.custom-nav-items a:hover {
+    background-color: #0E71AE;
+    color: #FCBF20;
+    transform: scale(1.7);
+}
+
+
+/* #endregion */
 
 /* #region spinner */
 
