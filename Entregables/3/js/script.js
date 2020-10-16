@@ -55,19 +55,33 @@ document.addEventListener("DOMContentLoaded", () => {
     let family = document.querySelector('#family');
     let cloud1 = document.querySelector('#cloud1');
     let cloud2 = document.querySelector('#cloud2');
+    let cloud3 = document.querySelector('#cloud3');
+    let cloud4 = document.querySelector('#cloud4');
+    let characters = document.querySelector('#character');
+    let carousel = document.querySelector('#carousel');
 
     window.addEventListener('scroll', function () {
         var valueY = window.scrollY;
 
-        the.style.left = valueY * 0.4 + 'px';
-
-        simpsons.style.left = -valueY * 1.4 + 'px';
-
-        family.style.top = -valueY + 'px';
-
         cloud1.style.top = valueY + 70 + 'px';
 
         cloud2.style.top = valueY + 150 + 'px';
+
+        cloud3.style.top = valueY + 70 + 'px';
+
+        cloud4.style.top = valueY + 150 + 'px';
+
+        the.style.left = valueY * 0.7 + 'px';
+
+        simpsons.style.left = -valueY * 1.7 + 'px';
+
+        family.style.top = -valueY + 140 + 'px';
+
+        characters.style.top = -valueY + 840 + 'px';
+
+        characters.style.left = valueY * 0.4 + 'px';
+
+        carousel.style.top = -valueY + 840 + 'px';
 
     })
 
