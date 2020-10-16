@@ -1,0 +1,203 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+body {
+    background-color: #59C6FF;
+    min-height: 2500px;
+}
+
+/* #region spinner */
+
+#spinner {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 10000;
+    background-color: #59C6FF;
+}
+
+.loading-spin {
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    background-image: url(img/dona.png);
+    background-size: 100px;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: rotate 4s linear infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* #endregion */
+
+/* #region parallax-effect */
+
+.parallax {
+    background-color: #59C6FF;
+    position: relative;
+    width: 100%;
+    height: 220vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.parallax img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+}
+
+#sign_the {
+    max-width: 10%;
+    height: auto;
+    margin-top: 0%;
+    margin-left: -10%;
+    position: relative;
+    z-index: 1;
+}
+
+#sign_simpsons {
+    max-width: 40%;
+    height: auto;
+    margin-left: 100%;
+    margin-top: 25%;
+    position: relative;
+    z-index: 3;
+}
+
+#family {
+    max-width: 100%;
+    height: auto;
+    margin-top: 140%;
+    margin-left: 0%;
+    z-index: 2;
+}
+
+#cloud1 {
+    max-width: 10%;
+    height: auto;
+    margin-top: 70px;
+    animation: clouds-movement 100s linear infinite;
+}
+
+#cloud2 {
+    max-width: 30%;
+    height: auto;
+    margin-top: 150px;
+    animation: clouds-movement 53s linear infinite;
+}
+
+@keyframes clouds-movement {
+    0% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(90vw);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* #endregion */
+
+/* #region characters */
+
+@keyframes float {
+    0% {
+        box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.9);
+        transform: translatey(0px);
+    }
+
+    50% {
+        box-shadow: 0 25px 15px 0px rgba(0, 0, 0, 0.2);
+        transform: translatey(-15px);
+    }
+
+    100% {
+        box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.9);
+        transform: translatey(0px);
+    }
+}
+
+.characters {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.avatar {
+    width: 150px;
+    height: 150px;
+    box-sizing: border-box;
+    border: 7px black solid;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 5px 25px 0px rgba(0, 0, 0, 0.6);
+    transform: translatey(0px);
+    animation: float 6s ease-in-out infinite;
+}
+
+.avatar img {
+    margin-top: -4%;
+    margin-left: -5%;
+    width: 110%;
+    height: auto;
+}
+
+/* #endregion */
+
+/* #region carousel */
+
+
+/* #endregion */
+
+/* #region accordeon */
+
+.accordeon li+div {
+    overflow: hidden;
+    height: auto;
+    max-height: 0;
+    transition: max-height 0.5s;
+}
+
+/* agrego la clase "visible" en js */
+.accordeon li+div.visible {
+    max-height: 100vh;
+}
+
+.accordeon li {
+    list-style: none;
+    text-align: center;
+    height: 30px;
+    background-color: #0a2a43;
+    border: 1px solid black;
+    color: #FFD801;
+}
+
+.accordeon img {
+    height: 300px;
+    width: 350px;
+}
+
+/* #endregion */
