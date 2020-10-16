@@ -17,4 +17,4 @@ En esta app: <br/>
 |                 ...                                ...                          ...                                                | <br/>
 |(boardWidth , boardHeight)                          ... ((boardWidth + (boardCol * SIZE_FIG) , boardHeight)                         | <br/>
 
-3. [N° 3](https://ninaencinosa.github.io/INTERFACES/Entregables/3/index.html): <br/>
+3. [N° 3](https://ninaencinosa.github.io/INTERFACES/Entregables/3/index.html): Avant premiere "The simpsons" <br/>
