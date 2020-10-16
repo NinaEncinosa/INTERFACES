@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     //#region spinner loader
+    loader();
 
-    //EN ARREGLO PARA QUE CARGUE CADA VEZ QUE APRETO ITEMS NAVBAR
     function loader() {
         setTimeout(function () {
             var els = document.querySelectorAll(".content");
@@ -11,18 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 els[i].style.visibility = "visible";
             };
         }, 3000);
-
-        document.getElementById('spinner').style.visibility = "visible";
-        for (var i = 0; i < els.length; i++) {
-            els[i].style.visibility = "hidden";
-        };
     }
-
-    var els = document.querySelectorAll(".content");
-
-    for (var i = 0; i < els.length; i++) {
-        els[i].addEventListener("click", loader());
-    };
 
     //#endregion
 
