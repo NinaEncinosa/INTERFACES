@@ -5,11 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function loader() {
         setTimeout(function () {
-            var els = document.querySelectorAll(".content");
             document.getElementById('spinner').style.visibility = "hidden";
-            for (var i = 0; i < els.length; i++) {
-                els[i].style.visibility = "visible";
-            };
+            document.getElementById('content').style.visibility = "visible";
         }, 3000);
     }
 
@@ -47,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let cloud3 = document.querySelector('#cloud3');
     let cloud4 = document.querySelector('#cloud4');
     let characters = document.querySelector('#character');
-    let carousel = document.querySelector('#carousel');
+    let characterstext = document.querySelector('#characters-text');
 
     window.addEventListener('scroll', function () {
         var valueY = window.scrollY;
@@ -70,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         characters.style.left = valueY * 0.4 + 'px';
 
-        carousel.style.top = -valueY + 840 + 'px';
+        characterstext.style.top = -valueY + 840 + 'px';
 
     })
 
