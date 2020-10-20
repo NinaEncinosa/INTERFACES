@@ -12,6 +12,12 @@ body {
     margin-top: 70px;
 }
 
+.scroll {
+    width: 30px;
+    height: 40px;
+    margin-left: 50%;
+    margin-top: 3%;
+}
 
 /* #region navbar */
 .nav-btn {
@@ -202,6 +208,10 @@ body {
     z-index: 5;
 }
 
+.avatar:hover {
+    animation: flip 1s linear infinite;
+}
+
 .avatar a {
     position: relative;
     z-index: 5;
@@ -255,9 +265,19 @@ body {
     }
 }
 
+@keyframes flip {
+    from {
+        transform: rotateY(0deg);
+    }
+
+    to {
+        transform: rotateY(360deg);
+    }
+}
+
 /* #endregion */
 
-/* #region carousel */
+
 #characters-text {
     margin-top: 38vh;
     margin-left: -70%;
@@ -268,7 +288,7 @@ body {
     width: 100%;
 }
 
-/* #endregion */
+
 
 /* #region accordeon */
 #events-calendar .parallax {
@@ -277,6 +297,18 @@ body {
     z-index: -50;
 }
 
+.ted-talks {
+    background-color: #0a2a43;
+    text-align: center;
+    color: #FBE051;
+    width: 40%;
+    margin-left: 30%
+}
+
+.accordeon {
+    width: 40%;
+    margin-left: 30%
+}
 
 .accordeon li+div {
     overflow: hidden;
@@ -293,20 +325,20 @@ body {
 .accordeon li {
     list-style: none;
     text-align: center;
-    height: 30px;
     background-color: #0a2a43;
     border: 1px solid black;
-    color: #FFD801;
+    color: white;
 }
 
 .accordeon img {
-    height: 300px;
-    width: 350px;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 /* #endregion */
 
 /* #region comments */
+
 #comments .parallax {
     top: -80vh;
     opacity: .5;
@@ -328,7 +360,7 @@ body {
 
 .forms .left,
 .forms .right {
-    animation: zoom 4.8s;
+    animation: zoom 5.8s;
     background-color: #F4C7E8;
     width: 40%;
     padding: 5%;
@@ -344,8 +376,7 @@ body {
 }
 
 .mail-input:hover,
-.text-input:hover,
-.send-btn:hover {
+.text-input:hover {
     transform: scale(.99);
     background-color: #FBE051;
     border-color: #BBB5EF;
@@ -360,7 +391,8 @@ body {
 }
 
 .send-btn:hover {
-    animation: rotate 1s linear;
+    transform: scale(1.05);
+    color: #FBE051;
 }
 
 

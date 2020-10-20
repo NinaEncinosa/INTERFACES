@@ -82,6 +82,42 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    const imgs = document.querySelectorAll(".follow-cursor");
+    const amount = 50;
+
+    const handleMouseMove = event => {
+        const mousePosX = event.clientX
+        const mousePosY = event.clientY;
+
+        imgs.forEach(thing => {
+            const thingRect = thing.getBoundingClientRect();
+
+            const centerX = thingRect.left + (thingRect.right - thingRect.left) * 0.5;
+            const centerY = thingRect.top + (thingRect.bottom - thingRect.top) * 0.5;
+            const distX = centerX - mousePosX;
+            const distY = centerY - mousePosY;
+            const xDeg = distX / amount * -3;
+            const yDeg = distY / amount * -3;
+            thing.style.transform = `rotate3d(1, 0, 0, ${yDeg}deg) rotate3d(0, 1, 0, ${xDeg}deg)`;
+
+        });
+    };
+
+    window.addEventListener("mousemove", generateEffect(handleMouseMove));
+
+    function generateEffect(fn) {
+        let didRequest = false;
+        return param => {
+            if (!didRequest) {
+                window.requestAnimationFrame(() => {
+                    fn(param);
+                    didRequest = false;
+                });
+                didRequest = true;
+            }
+        };
+    }
+
     //#endregion
 
 });
