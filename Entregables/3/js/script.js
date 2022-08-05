@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     //#endregion
 
     //#region count-down
-    let countDownDate = new Date("Oct 25, 2020 15:37:25").getTime();
+    let countDownDate = new Date("Oct 25, 2028 15:37:25").getTime();
 
     let aux = setInterval(function () {
         let now = new Date().getTime();
